@@ -20,9 +20,25 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UStaticMeshComponent * MeshComponent;
+
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void UpdateGrowth(float DeltaTime);
+
+	float deltaTime = 0.0f;
+	float timeSincePlanted = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
+	UStaticMesh* StageOne;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
+	UStaticMesh* StageTwo;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
+	UStaticMesh* StageThree;
 	
 	
 };
