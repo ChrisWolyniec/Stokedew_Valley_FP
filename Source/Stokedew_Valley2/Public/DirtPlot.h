@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "DirtPlot.generated.h"
 
+class ACrop;
+
 UCLASS()
 class STOKEDEW_VALLEY2_API ADirtPlot : public AActor
 {
@@ -14,6 +16,8 @@ class STOKEDEW_VALLEY2_API ADirtPlot : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ADirtPlot();
+	bool planted = false;
+	ACrop* crop;
 
 protected:
 	// Called when the game starts or when spawned

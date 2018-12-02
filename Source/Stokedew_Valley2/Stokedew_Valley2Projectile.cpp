@@ -4,6 +4,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "DirtPlot.h"
+#include "Crop.h"
 
 
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
@@ -42,6 +43,11 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 		ADirtPlot* plot = Cast<ADirtPlot>(OtherActor);
 		plot->SpawnCrop();
 		Destroy();
+	}
+	else if (Cast<ACrop>(OtherActor) != nullptr)
+	{
+		ACrop* crop = Cast<ACrop>(OtherActor);
+		crop->Harvest();
 	}
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{

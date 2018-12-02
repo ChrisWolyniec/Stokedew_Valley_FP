@@ -2,6 +2,7 @@
 
 #include "Crop.h"
 #include "Engine.h"
+#include "DirtPlot.h"
 
 
 // Sets default values
@@ -37,10 +38,21 @@ void ACrop::UpdateGrowth(float DeltaTime)
 	if (timeSincePlanted > 6)
 	{
 		MeshComponent->SetStaticMesh(StageThree);
+		stage = 3;
 	}
 	else if (timeSincePlanted > 3)
 	{
 		MeshComponent->SetStaticMesh(StageTwo);
+		stage = 2;
+	}
+}
+
+void ACrop::Harvest()
+{
+	if (stage == 3)
+	{
+		myPlot->planted = false;
+		Destroy();
 	}
 }
 

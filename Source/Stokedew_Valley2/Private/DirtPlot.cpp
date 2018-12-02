@@ -31,12 +31,22 @@ void ADirtPlot::Tick(float DeltaTime)
 
 void ADirtPlot::SpawnCrop()
 {
-	UWorld* const World = GetWorld();
+	if (!planted)
+	{
+		planted = true;
+		UWorld* const World = GetWorld();
 
-	//const FRotator SpawnRotation = GetActorRotation();
-	//srand(time(NULL)); TODO srand
-	const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
-	const FVector SpawnLocation = GetActorLocation();
-	World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+		//const FRotator SpawnRotation = GetActorRotation();
+		//srand(time(NULL)); TODO srand
+		const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
+		const FVector SpawnLocation = GetActorLocation();
+		crop = World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+		crop->myPlot = this;
+	}
+	else
+	{
+		crop->Harvest();
+	}
 }
+
 
