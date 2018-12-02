@@ -11,7 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
-#include "DirtPlot.h"
+
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -303,11 +303,8 @@ bool AStokedew_Valley2Character::EnableTouchscreenMovement(class UInputComponent
 	return false;
 }
 
-void AStokedew_Valley2Character::ChangePlayerStamina()
+void AStokedew_Valley2Character::ChangePlayerStamina(int amount)
 {
 	// if action occured then decrease stamina by soso amount
-	if (true)
-	{
-
-	}
+	playerStamina += amount;
 }

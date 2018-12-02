@@ -53,8 +53,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character stats")
 	float playerStamina;
 
-	void ChangePlayerStamina();
-
+	void ChangePlayerStamina(int amount);
 
 protected:
 	virtual void BeginPlay();

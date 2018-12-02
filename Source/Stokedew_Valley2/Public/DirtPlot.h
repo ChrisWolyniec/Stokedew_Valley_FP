@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "DirtPlot.generated.h"
 
+class AStokedew_Valley2Character;
+
 UCLASS()
 class STOKEDEW_VALLEY2_API ADirtPlot : public AActor
 {
@@ -28,5 +30,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Crop)
 	TSubclassOf<class ACrop> CropClass;
 	
-	
+	AStokedew_Valley2Character* player;
 };

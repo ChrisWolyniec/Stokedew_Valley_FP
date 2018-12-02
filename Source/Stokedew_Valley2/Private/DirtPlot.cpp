@@ -5,7 +5,7 @@
 #include "EngineMinimal.h"
 #include "Crop.h"
 #include "ctime"
-
+#include "Stokedew_Valley2Character.h"
 
 // Sets default values
 ADirtPlot::ADirtPlot()
@@ -19,7 +19,10 @@ ADirtPlot::ADirtPlot()
 void ADirtPlot::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)) != nullptr)
+	{
+		player = Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	}
 }
 
 // Called every frame
@@ -32,11 +35,13 @@ void ADirtPlot::Tick(float DeltaTime)
 void ADirtPlot::SpawnCrop()
 {
 	UWorld* const World = GetWorld();
-
+	int stamLoss = -5;
+	player->ChangePlayerStamina(stamLoss);
 	//const FRotator SpawnRotation = GetActorRotation();
 	//srand(time(NULL)); TODO srand
 	const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
 	const FVector SpawnLocation = GetActorLocation();
 	World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+
 }
 
