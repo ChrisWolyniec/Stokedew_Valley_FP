@@ -23,6 +23,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SpawnCrop();
+
+	UPROPERTY(EditDefaultsOnly, Category = Crop)
+	TSubclassOf<class ACrop> CropClass;
 	
 	
 };

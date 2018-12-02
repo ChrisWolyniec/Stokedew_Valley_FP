@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "DirtPlot.h"
 
+
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
 {
 	// Use a sphere as a simple collision representation
@@ -38,6 +39,8 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 
 	if (Cast<ADirtPlot>(OtherActor) != nullptr)
 	{
+		ADirtPlot* plot = Cast<ADirtPlot>(OtherActor);
+		plot->SpawnCrop();
 		Destroy();
 	}
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())

@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DirtPlot.h"
+#include "Kismet/GameplayStatics.h"
+#include "EngineMinimal.h"
+#include "Crop.h"
+#include "ctime"
 
 
 // Sets default values
@@ -23,5 +27,16 @@ void ADirtPlot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ADirtPlot::SpawnCrop()
+{
+	UWorld* const World = GetWorld();
+
+	//const FRotator SpawnRotation = GetActorRotation();
+	//srand(time(NULL)); TODO srand
+	const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
+	const FVector SpawnLocation = GetActorLocation();
+	World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
 }
 
