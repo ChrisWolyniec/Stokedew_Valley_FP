@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "DirtPlot.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -19,6 +20,9 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 AStokedew_Valley2Character::AStokedew_Valley2Character()
 {
+	//Player stats
+	playerStamina = 100.0f;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
@@ -297,4 +301,13 @@ bool AStokedew_Valley2Character::EnableTouchscreenMovement(class UInputComponent
 	}
 	
 	return false;
+}
+
+void AStokedew_Valley2Character::ChangePlayerStamina()
+{
+	// if action occured then decrease stamina by soso amount
+	if (true)
+	{
+
+	}
 }
