@@ -138,5 +138,30 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+
+
+
+
+
+
+
+
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Seeds and Crops")
+		int seeds;
+	UPROPERTY(EditAnywhere, Category = "Seeds and Crops")
+		int crops;
+
+	void Tick(float DeltaTime);
+
+
+
+
+public:
+	void ChangeSeedCount(int value);
+	int GetSeedCount();
+
+	void ChangeCropCount(int value);
 };
 

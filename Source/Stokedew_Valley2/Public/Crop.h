@@ -7,6 +7,7 @@
 #include "Crop.generated.h"
 
 class ADirtPlot;
+class AStokedew_Valley2Character;
 
 UCLASS()
 class STOKEDEW_VALLEY2_API ACrop : public AActor
@@ -45,6 +46,7 @@ public:
 	UStaticMesh* StageThree;
 
 	ADirtPlot* myPlot;
+	AStokedew_Valley2Character* character;
 	
 private:
 	int stage = 1;

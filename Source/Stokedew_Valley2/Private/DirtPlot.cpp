@@ -4,6 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "EngineMinimal.h"
 #include "Crop.h"
+#include "Stokedew_Valley2Character.h"
 #include "ctime"
 
 
@@ -19,6 +20,7 @@ ADirtPlot::ADirtPlot()
 void ADirtPlot::BeginPlay()
 {
 	Super::BeginPlay();
+	character = Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
 }
 
@@ -33,15 +35,19 @@ void ADirtPlot::SpawnCrop()
 {
 	if (!planted)
 	{
-		planted = true;
-		UWorld* const World = GetWorld();
+		if (character->GetSeedCount() > 0)
+		{
+			planted = true;
+			character->ChangeSeedCount(-1);
+			UWorld* const World = GetWorld();
 
-		//const FRotator SpawnRotation = GetActorRotation();
-		//srand(time(NULL)); TODO srand
-		const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
-		const FVector SpawnLocation = GetActorLocation();
-		crop = World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
-		crop->myPlot = this;
+			//const FRotator SpawnRotation = GetActorRotation();
+			//srand(time(NULL)); TODO srand
+			const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
+			const FVector SpawnLocation = GetActorLocation();
+			crop = World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+			crop->myPlot = this;
+		}
 	}
 	else
 	{

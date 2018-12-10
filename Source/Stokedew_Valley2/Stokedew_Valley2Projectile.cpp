@@ -48,6 +48,7 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 	{
 		ACrop* crop = Cast<ACrop>(OtherActor);
 		crop->Harvest();
+		Destroy();
 	}
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{

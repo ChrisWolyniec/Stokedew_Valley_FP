@@ -12,6 +12,12 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
+
+//Purely for debug
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+// End debug
+
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
@@ -107,6 +113,17 @@ void AStokedew_Valley2Character::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////
 // Input
+
+void AStokedew_Valley2Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	FString seedCountOutput = FString::FromInt(seeds);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Seeds: ") + seedCountOutput);
+
+	FString cropCountOutput = FString::FromInt(crops);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Crops: ") + cropCountOutput);
+}
 
 void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -297,4 +314,19 @@ bool AStokedew_Valley2Character::EnableTouchscreenMovement(class UInputComponent
 	}
 	
 	return false;
+}
+
+int AStokedew_Valley2Character::GetSeedCount()
+{
+	return seeds;
+}
+
+void AStokedew_Valley2Character::ChangeSeedCount(int value)
+{
+	seeds += value;
+}
+
+void AStokedew_Valley2Character::ChangeCropCount(int value)
+{
+	crops += value;
 }

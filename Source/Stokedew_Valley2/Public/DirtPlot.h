@@ -7,6 +7,7 @@
 #include "DirtPlot.generated.h"
 
 class ACrop;
+class AStokedew_Valley2Character;
 
 UCLASS()
 class STOKEDEW_VALLEY2_API ADirtPlot : public AActor
@@ -18,6 +19,7 @@ public:
 	ADirtPlot();
 	bool planted = false;
 	ACrop* crop;
+	AStokedew_Valley2Character* character;
 
 protected:
 	// Called when the game starts or when spawned
