@@ -330,3 +330,9 @@ void AStokedew_Valley2Character::ChangeCropCount(int value)
 {
 	crops += value;
 }
+
+void AStokedew_Valley2Character::SetPlayerLocation(float x, float y, float z)
+{
+	FVector location = { x, y, z };
+	TeleportTo(location, GetActorRotation());
+}

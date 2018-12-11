@@ -163,5 +163,6 @@ public:
 	int GetSeedCount();
 
 	void ChangeCropCount(int value);
+	void SetPlayerLocation(float x, float y, float z);
 };
 

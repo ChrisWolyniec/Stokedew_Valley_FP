@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "DirtPlot.h"
 #include "Crop.h"
+#include "HouseDoor.h"
 
 
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
@@ -48,6 +49,12 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 	{
 		ACrop* crop = Cast<ACrop>(OtherActor);
 		crop->Harvest();
+		Destroy();
+	}
+	else if (Cast<AHouseDoor>(OtherActor) != nullptr)
+	{
+		AHouseDoor* door = Cast<AHouseDoor>(OtherActor);
+		door->Teleport();
 		Destroy();
 	}
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
