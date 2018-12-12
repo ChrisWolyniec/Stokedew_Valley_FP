@@ -29,5 +29,5 @@ void AHouseDoor::Tick(float DeltaTime)
 
 void AHouseDoor::Teleport()
 {
-	character->SetPlayerLocation(650, 1050, 400);
+	character->SetPlayerLocation(xCoord, yCoord, zCoord);
 }
