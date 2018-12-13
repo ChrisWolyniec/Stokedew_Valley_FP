@@ -6,6 +6,7 @@
 #include "DirtPlot.h"
 #include "Crop.h"
 #include "HouseDoor.h"
+#include "Bed.h"
 
 
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
@@ -55,6 +56,12 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 	{
 		AHouseDoor* door = Cast<AHouseDoor>(OtherActor);
 		door->Teleport();
+		Destroy();
+	}
+	else if (Cast<ABed>(OtherActor) != nullptr)
+	{
+		ABed* bed = Cast<ABed>(OtherActor);
+		bed->Sleep(true);
 		Destroy();
 	}
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())

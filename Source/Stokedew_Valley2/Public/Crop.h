@@ -33,6 +33,16 @@ public:
 
 	void Harvest();
 
+	UPROPERTY(EditAnywhere, Category = "Time")
+	bool night = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	void SetNight(bool nightPassed);
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	bool GetNight();
+
+
 	float deltaTime = 0.0f;
 	float timeSincePlanted = 0.0f;
 

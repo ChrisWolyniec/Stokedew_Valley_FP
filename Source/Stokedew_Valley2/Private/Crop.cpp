@@ -36,16 +36,19 @@ void ACrop::Tick(float DeltaTime)
 
 void ACrop::UpdateGrowth(float DeltaTime)
 {
-	timeSincePlanted += DeltaTime;
-	if (timeSincePlanted > 6)
+	if (!night)
 	{
-		MeshComponent->SetStaticMesh(StageThree);
-		stage = 3;
-	}
-	else if (timeSincePlanted > 3)
-	{
-		MeshComponent->SetStaticMesh(StageTwo);
-		stage = 2;
+		timeSincePlanted += DeltaTime;
+		if (timeSincePlanted > 6)
+		{
+			MeshComponent->SetStaticMesh(StageThree);
+			stage = 3;
+		}
+		else if (timeSincePlanted > 3)
+		{
+			MeshComponent->SetStaticMesh(StageTwo);
+			stage = 2;
+		}
 	}
 }
 
@@ -62,3 +65,12 @@ void ACrop::Harvest()
 	}
 }
 
+void ACrop::SetNight(bool nightPassed)
+{
+	night = nightPassed;
+}
+
+bool ACrop::GetNight()
+{
+	return night;
+}
