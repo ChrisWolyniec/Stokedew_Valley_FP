@@ -8,6 +8,10 @@
 #include "HouseDoor.h"
 #include "Bed.h"
 
+//Purely for debug
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+// End debug
 
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
 {
@@ -60,14 +64,29 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 	}
 	else if (Cast<ABed>(OtherActor) != nullptr)
 	{
-		ABed* bed = Cast<ABed>(OtherActor);
-		bed->Sleep(true);
-		Destroy();
+		if (night == true)
+		{
+			ABed* bed = Cast<ABed>(OtherActor);
+			bed->Sleep(true);
+			Destroy();
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Sleeping"));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Not Night"));
+		}
 	}
+
+
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
 		Destroy();
 	}
+}
+
+void AStokedew_Valley2Projectile::SetNight(bool nightPassed)
+{
+	night = nightPassed;
 }

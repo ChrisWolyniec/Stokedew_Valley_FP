@@ -164,5 +164,15 @@ public:
 
 	void ChangeCropCount(int value);
 	void SetPlayerLocation(float x, float y, float z);
+
+
+	UFUNCTION(BlueprintCallable, Category = "Sleep")
+		void Sleep(bool sleep);
+
+	UFUNCTION(BlueprintCallable, Category = "Sleep")
+		bool GetSleep();
+
+	UPROPERTY(EditAnywhere, Category = "Sleep")
+	bool sleeping = false;
 };
 

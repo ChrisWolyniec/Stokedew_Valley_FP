@@ -336,3 +336,13 @@ void AStokedew_Valley2Character::SetPlayerLocation(float x, float y, float z)
 	FVector location = { x, y, z };
 	TeleportTo(location, GetActorRotation());
 }
+
+void AStokedew_Valley2Character::Sleep(bool sleep)
+{
+	sleeping = sleep;
+}
+
+bool AStokedew_Valley2Character::GetSleep()
+{
+	return sleeping;
+}
