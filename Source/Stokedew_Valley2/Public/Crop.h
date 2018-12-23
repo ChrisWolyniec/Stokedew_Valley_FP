@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Crop.generated.h"
 
+class ADirtPlot;
+class AStokedew_Valley2Character;
+
 UCLASS()
 class STOKEDEW_VALLEY2_API ACrop : public AActor
 {
@@ -28,6 +31,18 @@ public:
 
 	void UpdateGrowth(float DeltaTime);
 
+	void Harvest();
+
+	UPROPERTY(EditAnywhere, Category = "Time")
+	bool night = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	void SetNight(bool nightPassed);
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	bool GetNight();
+
+
 	float deltaTime = 0.0f;
 	float timeSincePlanted = 0.0f;
 
@@ -39,6 +54,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
 	UStaticMesh* StageThree;
+
+	ADirtPlot* myPlot;
+	AStokedew_Valley2Character* character;
 	
+private:
+	int stage = 1;
 	
 };

@@ -4,8 +4,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "EngineMinimal.h"
 #include "Crop.h"
-#include "ctime"
 #include "Stokedew_Valley2Character.h"
+#include "ctime"
 
 // Sets default values
 ADirtPlot::ADirtPlot()
@@ -19,10 +19,7 @@ ADirtPlot::ADirtPlot()
 void ADirtPlot::BeginPlay()
 {
 	Super::BeginPlay();
-	if (Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)) != nullptr)
-	{
-		player = Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	}
+	character = Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 // Called every frame
@@ -34,14 +31,27 @@ void ADirtPlot::Tick(float DeltaTime)
 
 void ADirtPlot::SpawnCrop()
 {
-	UWorld* const World = GetWorld();
-	int stamLoss = -5;
-	player->ChangePlayerStamina(stamLoss);
 	//const FRotator SpawnRotation = GetActorRotation();
-	//srand(time(NULL)); TODO srand
-	const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
-	const FVector SpawnLocation = GetActorLocation();
-	World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+	if (!planted)
+	{
+		if (character->GetSeedCount() > 0)
+		{
+			int stamLoss = -5;
+			planted = true;
+			character->ChangeSeedCount(-1);
+			UWorld* const World = GetWorld();
 
+			//srand(time(NULL)); TODO srand
+			const FRotator SpawnRotation = FRotator(0.0f, (rand() % 360), 0.0f);
+			const FVector SpawnLocation = GetActorLocation();
+			crop = World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
+			crop->myPlot = this;
+		}
+	}
+	else
+	{
+		crop->Harvest();
+	}
 }
+
 
