@@ -35,3 +35,8 @@ bool ABed::GetSleep()
 	return sleeping;
 }
 
+void ABed::Interact()
+{
+	Sleep(true);
+}
+

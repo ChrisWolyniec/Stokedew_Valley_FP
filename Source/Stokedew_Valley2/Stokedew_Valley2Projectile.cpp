@@ -7,6 +7,7 @@
 #include "Crop.h"
 #include "HouseDoor.h"
 #include "Bed.h"
+#include "BoundaryFence.h"
 
 //Purely for debug
 #include <EngineGlobals.h>
@@ -75,6 +76,12 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Not Night"));
 		}
+	}
+	else if (Cast<ABoundaryFence>(OtherActor) != nullptr)
+	{
+		ABoundaryFence* fence = Cast<ABoundaryFence>(OtherActor);
+		fence->PurchaseLand();
+		Destroy();
 	}
 
 

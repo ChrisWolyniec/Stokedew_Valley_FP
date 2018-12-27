@@ -11,6 +11,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "DrawDebugHelpers.h"
+#include "Engine.h"
+#include "IInteractable.h"
 
 //Purely for debug
 #include <EngineGlobals.h>
@@ -127,6 +130,7 @@ void AStokedew_Valley2Character::Tick(float DeltaTime)
 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Crops: ") + cropCountOutput);
 }
 
+
 void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// set up gameplay key bindings
@@ -138,6 +142,8 @@ void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent
 
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AStokedew_Valley2Character::OnFire);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -354,4 +360,41 @@ void AStokedew_Valley2Character::Sleep(bool sleep)
 bool AStokedew_Valley2Character::GetSleep()
 {
 	return sleeping;
+}
+
+int AStokedew_Valley2Character::GetGold()
+{
+	return gold;
+}
+
+void AStokedew_Valley2Character::ChangeGold(int goldChange)
+{
+	gold += goldChange;
+}
+
+void AStokedew_Valley2Character::Raycast()
+{
+	FHitResult* hitResult = new FHitResult();
+	FVector startTrace = FirstPersonCameraComponent->GetComponentLocation();
+	FVector forwardVector = FirstPersonCameraComponent->GetForwardVector();
+	FVector endTrace = (forwardVector * 300.0f) + startTrace;
+	FCollisionQueryParams* CQP = new FCollisionQueryParams();
+
+
+	if (GetWorld()->LineTraceSingleByChannel(*hitResult, startTrace, endTrace, ECC_Visibility, *CQP))
+	{
+		DrawDebugLine(GetWorld(), startTrace, endTrace, FColor(255, 0, 0), true);
+
+		if (hitResult->GetActor() != NULL)
+		{
+			if (Cast<IIInteractable> (hitResult->GetActor()) != nullptr)
+			{
+				IIInteractable* interactable = Cast<IIInteractable>(hitResult->GetActor());
+				interactable->Interact();
+			}
+		}
+	}
+
+	delete hitResult;
+	delete CQP;
 }

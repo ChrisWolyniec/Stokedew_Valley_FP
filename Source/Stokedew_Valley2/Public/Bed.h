@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IInteractable.h"
 #include "Bed.generated.h"
 
 UCLASS()
-class STOKEDEW_VALLEY2_API ABed : public AActor
+class STOKEDEW_VALLEY2_API ABed : public AActor, public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -30,6 +31,8 @@ public:
 	bool GetSleep();
 
 	bool sleeping = false;
+
+	virtual void Interact();
 
 	
 	
