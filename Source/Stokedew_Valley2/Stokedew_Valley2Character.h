@@ -187,7 +187,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Money")
 	void ChangeGold(int goldChange);
 
-	UPROPERTY(EditAnywhere, Category = "Money")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Money")
 	int gold;
 
 	UPROPERTY(EditAnywhere, Category = "Sleep")

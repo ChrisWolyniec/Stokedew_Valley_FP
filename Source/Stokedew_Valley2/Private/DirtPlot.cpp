@@ -38,6 +38,7 @@ void ADirtPlot::SpawnCrop()
 		{
 			int stamLoss = -5;
 			planted = true;
+			character->ChangePlayerStamina(stamLoss);
 			character->ChangeSeedCount(-1);
 			UWorld* const World = GetWorld();
 

@@ -29,6 +29,7 @@ AStokedew_Valley2Character::AStokedew_Valley2Character()
 {
 	//Player stats
 	playerStamina = 100.0f;
+	//gold = 500;
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
