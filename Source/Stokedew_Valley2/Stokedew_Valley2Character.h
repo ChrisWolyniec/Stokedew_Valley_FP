@@ -7,6 +7,7 @@
 #include "Stokedew_Valley2Character.generated.h"
 
 class UInputComponent;
+class ADirtPlot;
 
 UCLASS(config=Game)
 class AStokedew_Valley2Character : public ACharacter
@@ -75,6 +76,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AStokedew_Valley2Projectile> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, Category = "DirtPlot")
+	TSubclassOf<class ADirtPlot> PlotClass;
+
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	class USoundBase* FireSound;
@@ -86,6 +90,8 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
+
+	float deltaTime = 0;
 
 protected:
 	
@@ -163,9 +169,6 @@ private:
 	void Tick(float DeltaTime);
 
 	void Raycast();
-	//FHitResult* hitResult;
-	//FCollisionQueryParams CQP;
-	//FCollisionResponseParams CRP;
 
 public:
 	void ChangeSeedCount(int value);
@@ -192,5 +195,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Sleep")
 	bool sleeping = false;
+
+	UPROPERTY(EditAnywhere, Category = "Time")
+	bool night = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	void SetNight(bool nightPassed);
 };
+
 

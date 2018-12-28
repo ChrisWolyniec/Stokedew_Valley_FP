@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IInteractable.h"
 #include "Crop.generated.h"
 
 class ADirtPlot;
 class AStokedew_Valley2Character;
 
 UCLASS()
-class STOKEDEW_VALLEY2_API ACrop : public AActor
+class STOKEDEW_VALLEY2_API ACrop : public AActor, public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -57,6 +58,8 @@ public:
 
 	ADirtPlot* myPlot;
 	AStokedew_Valley2Character* character;
+
+	virtual void Interact();
 	
 private:
 	int stage = 1;

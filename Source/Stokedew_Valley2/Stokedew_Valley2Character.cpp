@@ -14,6 +14,8 @@
 #include "DrawDebugHelpers.h"
 #include "Engine.h"
 #include "IInteractable.h"
+#include "Classes/Landscape.h"
+#include "DirtPlot.h"
 
 //Purely for debug
 #include <EngineGlobals.h>
@@ -122,6 +124,8 @@ void AStokedew_Valley2Character::BeginPlay()
 void AStokedew_Valley2Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	deltaTime = DeltaTime;
 
 	FString seedCountOutput = FString::FromInt(seeds);
 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Seeds: ") + seedCountOutput);
@@ -377,7 +381,7 @@ void AStokedew_Valley2Character::Raycast()
 	FHitResult* hitResult = new FHitResult();
 	FVector startTrace = FirstPersonCameraComponent->GetComponentLocation();
 	FVector forwardVector = FirstPersonCameraComponent->GetForwardVector();
-	FVector endTrace = (forwardVector * 300.0f) + startTrace;
+	FVector endTrace = (forwardVector * 500.0f) + startTrace;
 	FCollisionQueryParams* CQP = new FCollisionQueryParams();
 
 
@@ -392,9 +396,44 @@ void AStokedew_Valley2Character::Raycast()
 				IIInteractable* interactable = Cast<IIInteractable>(hitResult->GetActor());
 				interactable->Interact();
 			}
+			else if (Cast<ALandscape>(hitResult->GetActor()) != nullptr)
+			{
+				ALandscape* landscape = Cast<ALandscape>(hitResult->GetActor());
+				hitResult->ImpactPoint;
+
+				UWorld* const World = GetWorld();
+
+				FVector editedImpactPoint = hitResult->ImpactPoint;
+
+				editedImpactPoint.X = editedImpactPoint.X - 55;
+				editedImpactPoint.Y = editedImpactPoint.Y - 55;
+
+				editedImpactPoint.X = editedImpactPoint.X - ((int)editedImpactPoint.X % 110);
+				editedImpactPoint.Y = editedImpactPoint.Y - ((int)editedImpactPoint.Y % 110);
+				editedImpactPoint.Z = 170.0f;
+
+				if (editedImpactPoint.X > 0)
+				{
+					editedImpactPoint.X += 110.0f;
+				}
+				if (editedImpactPoint.Y > 0)
+				{
+					editedImpactPoint.Y += 110.0f;
+				}
+
+				const FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+				const FVector SpawnLocation = editedImpactPoint;
+				ADirtPlot* newPlot = World->SpawnActor<ADirtPlot>(PlotClass, SpawnLocation, SpawnRotation);
+			}
+
 		}
 	}
 
 	delete hitResult;
 	delete CQP;
+}
+
+void AStokedew_Valley2Character::SetNight(bool nightPassed)
+{
+	night = nightPassed;
 }

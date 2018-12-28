@@ -54,4 +54,8 @@ void ADirtPlot::SpawnCrop()
 	}
 }
 
+void ADirtPlot::Interact()
+{
+	SpawnCrop();
+}
 

@@ -74,3 +74,8 @@ bool ACrop::GetNight()
 {
 	return night;
 }
+
+void ACrop::Interact()
+{
+	Harvest();
+}
