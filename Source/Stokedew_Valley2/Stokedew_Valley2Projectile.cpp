@@ -4,7 +4,15 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "DirtPlot.h"
+#include "Crop.h"
+#include "HouseDoor.h"
+#include "Bed.h"
+#include "BoundaryFence.h"
 
+//Purely for debug
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+// End debug
 
 AStokedew_Valley2Projectile::AStokedew_Valley2Projectile() 
 {
@@ -43,10 +51,49 @@ void AStokedew_Valley2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Ot
 		plot->SpawnCrop();
 		Destroy();
 	}
+	else if (Cast<ACrop>(OtherActor) != nullptr)
+	{
+		ACrop* crop = Cast<ACrop>(OtherActor);
+		crop->Harvest();
+		Destroy();
+	}
+	else if (Cast<AHouseDoor>(OtherActor) != nullptr)
+	{
+		AHouseDoor* door = Cast<AHouseDoor>(OtherActor);
+		door->Teleport();
+		Destroy();
+	}
+	else if (Cast<ABed>(OtherActor) != nullptr)
+	{
+		if (night == true)
+		{
+			ABed* bed = Cast<ABed>(OtherActor);
+			bed->Sleep(true);
+			Destroy();
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Sleeping"));
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Not Night"));
+		}
+	}
+	else if (Cast<ABoundaryFence>(OtherActor) != nullptr)
+	{
+		ABoundaryFence* fence = Cast<ABoundaryFence>(OtherActor);
+		fence->PurchaseLand();
+		Destroy();
+	}
+
+
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
 		Destroy();
 	}
+}
+
+void AStokedew_Valley2Projectile::SetNight(bool nightPassed)
+{
+	night = nightPassed;
 }

@@ -145,5 +145,52 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+
+
+
+
+
+
+
+
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Seeds and Crops")
+		int seeds;
+	UPROPERTY(EditAnywhere, Category = "Seeds and Crops")
+		int crops;
+
+	void Tick(float DeltaTime);
+
+	void Raycast();
+	//FHitResult* hitResult;
+	//FCollisionQueryParams CQP;
+	//FCollisionResponseParams CRP;
+
+public:
+	void ChangeSeedCount(int value);
+	int GetSeedCount();
+
+	void ChangeCropCount(int value);
+	void SetPlayerLocation(float x, float y, float z);
+
+
+	UFUNCTION(BlueprintCallable, Category = "Sleep")
+		void Sleep(bool sleep);
+
+	UFUNCTION(BlueprintCallable, Category = "Sleep")
+		bool GetSleep();
+
+	UFUNCTION(BlueprintCallable, Category = "Money")
+	int GetGold();
+
+	UFUNCTION(BlueprintCallable, Category = "Money")
+	void ChangeGold(int goldChange);
+
+	UPROPERTY(EditAnywhere, Category = "Money")
+	int gold;
+
+	UPROPERTY(EditAnywhere, Category = "Sleep")
+	bool sleeping = false;
 };
 

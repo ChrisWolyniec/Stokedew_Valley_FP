@@ -11,7 +11,14 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "DrawDebugHelpers.h"
+#include "Engine.h"
+#include "IInteractable.h"
 
+//Purely for debug
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+// End debug
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -112,6 +119,18 @@ void AStokedew_Valley2Character::BeginPlay()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
+void AStokedew_Valley2Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	FString seedCountOutput = FString::FromInt(seeds);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Seeds: ") + seedCountOutput);
+
+	FString cropCountOutput = FString::FromInt(crops);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Crops: ") + cropCountOutput);
+}
+
+
 void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// set up gameplay key bindings
@@ -123,6 +142,8 @@ void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent
 
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AStokedew_Valley2Character::OnFire);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -307,4 +328,73 @@ void AStokedew_Valley2Character::ChangePlayerStamina(int amount)
 {
 	// if action occured then decrease stamina by soso amount
 	playerStamina += amount;
+}
+
+
+int AStokedew_Valley2Character::GetSeedCount()
+{
+	return seeds;
+}
+
+void AStokedew_Valley2Character::ChangeSeedCount(int value)
+{
+	seeds += value;
+}
+
+void AStokedew_Valley2Character::ChangeCropCount(int value)
+{
+	crops += value;
+}
+
+void AStokedew_Valley2Character::SetPlayerLocation(float x, float y, float z)
+{
+	FVector location = { x, y, z };
+	TeleportTo(location, GetActorRotation());
+}
+
+void AStokedew_Valley2Character::Sleep(bool sleep)
+{
+	sleeping = sleep;
+}
+
+bool AStokedew_Valley2Character::GetSleep()
+{
+	return sleeping;
+}
+
+int AStokedew_Valley2Character::GetGold()
+{
+	return gold;
+}
+
+void AStokedew_Valley2Character::ChangeGold(int goldChange)
+{
+	gold += goldChange;
+}
+
+void AStokedew_Valley2Character::Raycast()
+{
+	FHitResult* hitResult = new FHitResult();
+	FVector startTrace = FirstPersonCameraComponent->GetComponentLocation();
+	FVector forwardVector = FirstPersonCameraComponent->GetForwardVector();
+	FVector endTrace = (forwardVector * 300.0f) + startTrace;
+	FCollisionQueryParams* CQP = new FCollisionQueryParams();
+
+
+	if (GetWorld()->LineTraceSingleByChannel(*hitResult, startTrace, endTrace, ECC_Visibility, *CQP))
+	{
+		DrawDebugLine(GetWorld(), startTrace, endTrace, FColor(255, 0, 0), true);
+
+		if (hitResult->GetActor() != NULL)
+		{
+			if (Cast<IIInteractable> (hitResult->GetActor()) != nullptr)
+			{
+				IIInteractable* interactable = Cast<IIInteractable>(hitResult->GetActor());
+				interactable->Interact();
+			}
+		}
+	}
+
+	delete hitResult;
+	delete CQP;
 }
