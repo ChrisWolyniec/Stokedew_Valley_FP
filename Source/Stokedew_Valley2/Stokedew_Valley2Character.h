@@ -201,6 +201,38 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Time")
 	void SetNight(bool nightPassed);
+
+	void ChangeHeldProduce();
+
+	int GetHeldProduce();
+
+	int GetWheatCount();
+	void ChangeWheatCount(int change);
+
+	int GetCornCount();
+	void ChangeCornCount(int change);
+
+	int GetStrawberryCount();
+	void ChangeStrawberryCount(int change);
+
+	int GetSunflowerCount();
+	void ChangeSunflowerCount(int change);
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int wheatCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int cornCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int strawberryCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int sunflowerCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int heldProduceValue;
+
 };
 
 

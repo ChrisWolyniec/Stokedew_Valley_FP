@@ -132,6 +132,43 @@ void AStokedew_Valley2Character::Tick(float DeltaTime)
 
 	FString cropCountOutput = FString::FromInt(crops);
 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Crops: ") + cropCountOutput);
+
+	FString goldOutput = FString::FromInt(gold);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Gold: ") + goldOutput);
+
+
+
+
+	FString wheatOutput = FString::FromInt(wheatCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Wheat: ") + wheatOutput);
+
+	FString cornOutput = FString::FromInt(cornCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Corn: ") + cornOutput);
+
+	FString strawberryOutput = FString::FromInt(strawberryCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Strawberries: ") + strawberryOutput);
+
+	FString sunflowerOutput = FString::FromInt(sunflowerCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Sunflowers: ") + sunflowerOutput);
+
+
+
+	FString heldProduceName;
+
+	switch (heldProduceValue)
+	{
+	case 0: heldProduceName = "Wheat";
+		break;
+	case 1: heldProduceName = "Corn";
+		break;
+	case 2: heldProduceName = "Strawberries";
+		break;
+	case 3: heldProduceName = "Sunflowers";
+		break;
+	default:
+		break;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Produce: ") + heldProduceName);
 }
 
 
@@ -148,6 +185,7 @@ void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AStokedew_Valley2Character::OnFire);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
+	PlayerInputComponent->BindAction("ChangeHeldProduce", IE_Pressed, this, &AStokedew_Valley2Character::ChangeHeldProduce);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -436,4 +474,54 @@ void AStokedew_Valley2Character::Raycast()
 void AStokedew_Valley2Character::SetNight(bool nightPassed)
 {
 	night = nightPassed;
+}
+
+void AStokedew_Valley2Character::ChangeHeldProduce()
+{
+	heldProduceValue++;
+	if (heldProduceValue == 4)
+	{
+		heldProduceValue = 0;
+	}
+}
+
+int AStokedew_Valley2Character::GetHeldProduce()
+{
+	return heldProduceValue;
+}
+
+int AStokedew_Valley2Character::GetWheatCount()
+{
+	return wheatCount;
+}
+void AStokedew_Valley2Character::ChangeWheatCount(int change)
+{
+	wheatCount += change;
+}
+
+void AStokedew_Valley2Character::ChangeCornCount(int change)
+{
+	cornCount += change;
+}
+int AStokedew_Valley2Character::GetCornCount()
+{
+	return cornCount;
+}
+
+int AStokedew_Valley2Character::GetStrawberryCount()
+{
+	return strawberryCount;
+}
+void AStokedew_Valley2Character::ChangeStrawberryCount(int change)
+{
+	strawberryCount += change;
+}
+
+int AStokedew_Valley2Character::GetSunflowerCount()
+{
+	return sunflowerCount;
+}
+void AStokedew_Valley2Character::ChangeSunflowerCount(int change)
+{
+	sunflowerCount += change;
 }
