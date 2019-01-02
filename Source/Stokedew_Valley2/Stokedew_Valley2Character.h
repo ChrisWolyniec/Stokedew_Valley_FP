@@ -183,10 +183,10 @@ public:
 
 
 
-	void ChangeSeedCount(int value);
-	int GetSeedCount();
+	void ChangeSeedCount(int value, int cropType);
+	int GetSeedCount(int seedType);
 
-	void ChangeCropCount(int value);
+	void ChangeCropCount(int value, int cropType);
 	void SetPlayerLocation(float x, float y, float z);
 
 
@@ -225,13 +225,16 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Equiped")
 	int GetEquipedTool();
-
 	void ChangeEquipedTool();
 
 	UFUNCTION(BlueprintCallable, Category = "Equiped")
 	int GetHeldProduce();
-
 	void ChangeHeldProduce();
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetHeldSeed();
+	void ChangeHeldSeed();
+
 
 
 
@@ -247,6 +250,22 @@ public:
 
 	int GetSunflowerCount();
 	void ChangeSunflowerCount(int change);
+
+
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int wheatSeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int cornSeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int strawberrySeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int sunflowerSeedCount;
+
+
 
 	UPROPERTY(EditAnywhere, Category = "Crops")
 	int wheatCount;
@@ -264,6 +283,7 @@ public:
 	int heldProduceValue;
 
 	int equipedTool = 0;
+	int heldSeed = 0;
 
 };
 
