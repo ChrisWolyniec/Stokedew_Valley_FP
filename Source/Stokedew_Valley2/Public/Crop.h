@@ -63,5 +63,7 @@ public:
 	
 private:
 	int stage = 1;
+
+	bool watered = false;
 	
 };

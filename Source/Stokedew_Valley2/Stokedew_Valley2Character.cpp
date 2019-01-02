@@ -169,6 +169,25 @@ void AStokedew_Valley2Character::Tick(float DeltaTime)
 		break;
 	}
 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Produce: ") + heldProduceName);
+
+
+
+	FString equipedToolName;
+
+	switch (equipedTool)
+	{
+	case 0: equipedToolName = "Hoe";
+		break;
+	case 1: equipedToolName = "Trowel";
+		break;
+	case 2: equipedToolName = "Watering Can";
+		break;
+	case 3: equipedToolName = "Sickle";
+		break;
+	default:
+		break;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Tool: ") + equipedToolName);
 }
 
 
@@ -186,6 +205,7 @@ void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
 	PlayerInputComponent->BindAction("ChangeHeldProduce", IE_Pressed, this, &AStokedew_Valley2Character::ChangeHeldProduce);
+	PlayerInputComponent->BindAction("ChangeEquipedTool", IE_Pressed, this, &AStokedew_Valley2Character::ChangeEquipedTool);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -434,7 +454,7 @@ void AStokedew_Valley2Character::Raycast()
 				IIInteractable* interactable = Cast<IIInteractable>(hitResult->GetActor());
 				interactable->Interact();
 			}
-			else if (Cast<ALandscape>(hitResult->GetActor()) != nullptr)
+			else if (Cast<ALandscape>(hitResult->GetActor()) != nullptr && equipedTool == 0)
 			{
 				ALandscape* landscape = Cast<ALandscape>(hitResult->GetActor());
 				hitResult->ImpactPoint;
@@ -471,9 +491,27 @@ void AStokedew_Valley2Character::Raycast()
 	delete CQP;
 }
 
+
+
+
 void AStokedew_Valley2Character::SetNight(bool nightPassed)
 {
 	night = nightPassed;
+}
+
+int AStokedew_Valley2Character::GetEquipedTool()
+{
+	return equipedTool;
+}
+
+void AStokedew_Valley2Character::ChangeEquipedTool()
+{
+	equipedTool++;
+
+	if (equipedTool == 4)
+	{
+		equipedTool = 0;
+	}
 }
 
 void AStokedew_Valley2Character::ChangeHeldProduce()

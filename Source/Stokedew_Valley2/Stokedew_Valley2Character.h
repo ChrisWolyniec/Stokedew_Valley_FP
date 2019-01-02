@@ -171,6 +171,18 @@ private:
 	void Raycast();
 
 public:
+
+	enum EquipedTool
+	{
+		Hoe = 0,
+		WateringCan,
+		Throwel,
+		Sickle
+	};
+
+
+
+
 	void ChangeSeedCount(int value);
 	int GetSeedCount();
 
@@ -184,6 +196,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Sleep")
 		bool GetSleep();
 
+	UPROPERTY(EditAnywhere, Category = "Sleep")
+	bool sleeping = false;
+
+
+
 	UFUNCTION(BlueprintCallable, Category = "Money")
 	int GetGold();
 
@@ -193,8 +210,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Money")
 	int gold;
 
-	UPROPERTY(EditAnywhere, Category = "Sleep")
-	bool sleeping = false;
+
+
+
 
 	UPROPERTY(EditAnywhere, Category = "Time")
 	bool night = false;
@@ -202,9 +220,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Time")
 	void SetNight(bool nightPassed);
 
+
+
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetEquipedTool();
+
+	void ChangeEquipedTool();
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetHeldProduce();
+
 	void ChangeHeldProduce();
 
-	int GetHeldProduce();
+
+
 
 	int GetWheatCount();
 	void ChangeWheatCount(int change);
@@ -232,6 +262,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Crops")
 	int heldProduceValue;
+
+	int equipedTool = 0;
 
 };
 

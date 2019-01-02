@@ -27,7 +27,7 @@ void AShop::Tick(float DeltaTime)
 
 }
 
-void AShop::Interact()
+void AShop::PurchaseFromPlayer()
 {
 	int heldProduceValue = character->GetHeldProduce();
 
@@ -90,3 +90,74 @@ void AShop::Interact()
 	}
 }
 
+void AShop::SellToPlayer()
+{
+	int heldProduceValue = character->GetHeldProduce();
+	int playersGold = character->GetGold();
+
+	switch (heldProduceValue)
+	{
+	case 0:
+		if (playersGold >= 5)
+		{
+			character->ChangeGold(-10);
+			character->ChangeWheatCount(5);
+		}
+		else if (playersGold > 0)
+		{
+			character->ChangeGold(-2);
+			character->ChangeWheatCount(1);
+		}
+		break;
+	case 1:
+		if (playersGold >= 5)
+		{
+			character->ChangeGold(-15);
+			character->ChangeCornCount(5);
+		}
+		else if (playersGold > 0)
+		{
+			character->ChangeGold(-3);
+			character->ChangeCornCount(1);
+		}
+		break;
+	case 2:
+		if (playersGold >= 15)
+		{
+			character->ChangeGold(-10);
+			character->ChangeStrawberryCount(15);
+		}
+		else if (playersGold >= 3)
+		{
+			character->ChangeGold(-2);
+			character->ChangeStrawberryCount(3);
+		}
+		break;
+	case 3:
+		if (playersGold >= 5)
+		{
+			character->ChangeGold(-10);
+			character->ChangeSunflowerCount(5);
+		}
+		else if (playersGold > 0)
+		{
+			character->ChangeGold(-2);
+			character->ChangeSunflowerCount(1);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void AShop::Interact()
+{
+	if (seller)
+	{
+		SellToPlayer();
+	}
+	else
+	{
+		PurchaseFromPlayer();
+	}
+}

@@ -32,7 +32,7 @@ void ADirtPlot::Tick(float DeltaTime)
 void ADirtPlot::SpawnCrop()
 {
 	//const FRotator SpawnRotation = GetActorRotation();
-	if (!planted)
+	if (!planted && character->GetEquipedTool() == 1)
 	{
 		if (character->GetSeedCount() > 0)
 		{
@@ -50,7 +50,10 @@ void ADirtPlot::SpawnCrop()
 	}
 	else
 	{
-		crop->Harvest();
+		if (crop != NULL)
+		{
+			crop->Interact();
+		}
 	}
 }
 

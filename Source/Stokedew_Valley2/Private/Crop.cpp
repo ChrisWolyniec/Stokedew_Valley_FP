@@ -36,7 +36,7 @@ void ACrop::Tick(float DeltaTime)
 
 void ACrop::UpdateGrowth(float DeltaTime)
 {
-	if (!night)
+	if (!night && watered)
 	{
 		timeSincePlanted += DeltaTime;
 		if (timeSincePlanted > 6)
@@ -77,5 +77,12 @@ bool ACrop::GetNight()
 
 void ACrop::Interact()
 {
-	Harvest();
+	if (character->GetEquipedTool() == 2 && !watered)
+	{
+		watered = true;
+	}
+	else if (character->GetEquipedTool() == 3)
+	{
+		Harvest();
+	}
 }

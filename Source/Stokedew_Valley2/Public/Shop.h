@@ -27,6 +27,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void PurchaseFromPlayer();
+	void SellToPlayer();
+
 	virtual void Interact();
 
 private:
@@ -34,4 +37,7 @@ private:
 	int cornCount;
 	int strawberryCount;
 	int sunflowerCount;
+
+	UPROPERTY(EditAnywhere, Category = "Shop Type")
+	bool seller;
 };
