@@ -127,93 +127,79 @@ void AStokedew_Valley2Character::Tick(float DeltaTime)
 
 	deltaTime = DeltaTime;
 
-	FString seedCountOutput = FString::FromInt(seeds);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Seeds: ") + seedCountOutput);
-
-	FString cropCountOutput = FString::FromInt(crops);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Crops: ") + cropCountOutput);
-
-	FString goldOutput = FString::FromInt(gold);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Gold: ") + goldOutput);
-
-
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
-
-
 	FString wheatOutput = FString::FromInt(wheatCount);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Wheat: ") + wheatOutput);
+	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Wheat: ") + wheatOutput);
 
 	FString cornOutput = FString::FromInt(cornCount);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Corn: ") + cornOutput);
+	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Corn: ") + cornOutput);
 
 	FString strawberryOutput = FString::FromInt(strawberryCount);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Strawberries: ") + strawberryOutput);
+	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Strawberries: ") + strawberryOutput);
 
 	FString sunflowerOutput = FString::FromInt(sunflowerCount);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Sunflowers: ") + sunflowerOutput);
+	//GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Sunflowers: ") + sunflowerOutput);
 
 
 
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));	
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
 
 
-
-	FString heldProduceName;
 
 	switch (heldProduceValue)
 	{
-	case 0: heldProduceName = "Wheat";
+	case 0: heldProduceName = "Held Produce: Wheat";
+		cropAmount = wheatCount;
 		break;
-	case 1: heldProduceName = "Corn";
+	case 1: heldProduceName = "Held Produce: Corn";
+		cropAmount = cornCount;
 		break;
-	case 2: heldProduceName = "Strawberries";
+	case 2: heldProduceName = "Held Produce: Strawberries";
+		cropAmount = strawberryCount;
 		break;
-	case 3: heldProduceName = "Sunflowers";
+	case 3: heldProduceName = "Held Produce: Sunflowers";
+		cropAmount = sunflowerCount;
 		break;
 	default:
 		break;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Produce: ") + heldProduceName);
 
 
 
-	FString equipedToolName;
 
 	switch (equipedTool)
 	{
-	case 0: equipedToolName = "Hoe";
+	case 0: equipedToolName = "Held Tool: Hoe";
 		break;
-	case 1: equipedToolName = "Trowel";
+	case 1: equipedToolName = "Held Tool: Trowel";
 		break;
-	case 2: equipedToolName = "Watering Can";
+	case 2: equipedToolName = "Held Tool: Watering Can";
 		break;
-	case 3: equipedToolName = "Sickle";
+	case 3: equipedToolName = "Held Tool: Sickle";
 		break;
 	default:
 		break;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Tool: ") + equipedToolName);
 
 
 
-	FString equipedSeedName;
+
 
 	switch (heldSeed)
 	{
-	case 0: equipedSeedName = "Wheat";
+	case 0: equipedSeedName = "Held Seed: Wheat";
+		seedAmount = wheatSeedCount;
 		break;
-	case 1: equipedSeedName = "Corn";
+	case 1: equipedSeedName = "Held Seed: Corn";
+		seedAmount = cornSeedCount;
 		break;
-	case 2: equipedSeedName = "Strawberry";
+	case 2: equipedSeedName = "Held Seed: Strawberry";
+		seedAmount = strawberrySeedCount;
 		break;
-	case 3: equipedSeedName = "Sunflower";
+	case 3: equipedSeedName = "Held Seed: Sunflower";
+		seedAmount = sunflowerSeedCount;
 		break;
 	default:
 		break;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Seed: ") + equipedSeedName);
 
 	for (int i = 0; i < 10; i++)
 	{

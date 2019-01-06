@@ -258,7 +258,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Seeds")
 	int sunflowerSeedCount;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tools")
+	FString equipedToolName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crops")
+	FString heldProduceName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Seeds")
+	int seedAmount;
+
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crops")
+	int cropAmount;
 
 	UPROPERTY(EditAnywhere, Category = "Crops")
 	int wheatCount;
@@ -279,6 +292,10 @@ public:
 	int heldSeed = 0;
 
 
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Seeds")
+	FString equipedSeedName;
 
 	//Player stats
 	UPROPERTY(EditAnywhere, Category = "Character stats")
