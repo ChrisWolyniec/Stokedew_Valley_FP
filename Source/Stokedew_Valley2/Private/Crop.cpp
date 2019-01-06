@@ -13,11 +13,19 @@ ACrop::ACrop()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CropStage"));
 	MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
+	
+	
 	wheatMat = CreateDefaultSubobject<UMaterial>(TEXT("Wheat Material"));
 	cornMat = CreateDefaultSubobject<UMaterial>(TEXT("Corn Material"));
 	strawberryMat = CreateDefaultSubobject<UMaterial>(TEXT("Strawberry Material"));
 	sunflowerMat = CreateDefaultSubobject<UMaterial>(TEXT("Sunflower Material"));
+	
+	
+	name = "crop boi";
+	IsStackable = true;
+	itemDescription = "this is a crop";
+	IsConsumable = false;
+	maxStackable = 99;
 }
 
 // Called when the game starts or when spawned
