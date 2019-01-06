@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IInteractable.h"
 #include "Crop.generated.h"
 
 class ADirtPlot;
 class AStokedew_Valley2Character;
 
 UCLASS()
-class STOKEDEW_VALLEY2_API ACrop : public AActor
+class STOKEDEW_VALLEY2_API ACrop : public AActor, public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -24,6 +25,7 @@ protected:
 
 public:	
 	UStaticMeshComponent * MeshComponent;
+	UMaterialInstanceDynamic* EquipedMaterial;
 
 
 	// Called every frame
@@ -46,6 +48,8 @@ public:
 	float deltaTime = 0.0f;
 	float timeSincePlanted = 0.0f;
 
+	int harvested = false;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
 	UStaticMesh* StageOne;
 
@@ -55,10 +59,26 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
 	UStaticMesh* StageThree;
 
+	UPROPERTY(EditAnywhere, Category = "Crop Type")
+	class UMaterial* wheatMat;
+	UPROPERTY(EditAnywhere, Category = "Crop Type")
+	class UMaterial* cornMat;
+	UPROPERTY(EditAnywhere, Category = "Crop Type")
+	class UMaterial* strawberryMat;
+	UPROPERTY(EditAnywhere, Category = "Crop Type")
+	class UMaterial* sunflowerMat;
+
+
 	ADirtPlot* myPlot;
 	AStokedew_Valley2Character* character;
+
+	virtual void Interact();
+
+	void SetCropType(int cropTypePassed);
 	
 private:
 	int stage = 1;
+	int cropType;
+	bool watered = false;
 	
 };

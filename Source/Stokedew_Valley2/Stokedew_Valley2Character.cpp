@@ -14,6 +14,8 @@
 #include "DrawDebugHelpers.h"
 #include "Engine.h"
 #include "IInteractable.h"
+#include "Classes/Landscape.h"
+#include "DirtPlot.h"
 
 //Purely for debug
 #include <EngineGlobals.h>
@@ -123,11 +125,100 @@ void AStokedew_Valley2Character::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	deltaTime = DeltaTime;
+
 	FString seedCountOutput = FString::FromInt(seeds);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Seeds: ") + seedCountOutput);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Seeds: ") + seedCountOutput);
 
 	FString cropCountOutput = FString::FromInt(crops);
-	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Crops: ") + cropCountOutput);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Crops: ") + cropCountOutput);
+
+	FString goldOutput = FString::FromInt(gold);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, TEXT("Gold: ") + goldOutput);
+
+
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
+
+
+	FString wheatOutput = FString::FromInt(wheatCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Wheat: ") + wheatOutput);
+
+	FString cornOutput = FString::FromInt(cornCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Corn: ") + cornOutput);
+
+	FString strawberryOutput = FString::FromInt(strawberryCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Strawberries: ") + strawberryOutput);
+
+	FString sunflowerOutput = FString::FromInt(sunflowerCount);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Blue, TEXT("Sunflowers: ") + sunflowerOutput);
+
+
+
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));	
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
+
+
+
+	FString heldProduceName;
+
+	switch (heldProduceValue)
+	{
+	case 0: heldProduceName = "Wheat";
+		break;
+	case 1: heldProduceName = "Corn";
+		break;
+	case 2: heldProduceName = "Strawberries";
+		break;
+	case 3: heldProduceName = "Sunflowers";
+		break;
+	default:
+		break;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Produce: ") + heldProduceName);
+
+
+
+	FString equipedToolName;
+
+	switch (equipedTool)
+	{
+	case 0: equipedToolName = "Hoe";
+		break;
+	case 1: equipedToolName = "Trowel";
+		break;
+	case 2: equipedToolName = "Watering Can";
+		break;
+	case 3: equipedToolName = "Sickle";
+		break;
+	default:
+		break;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Tool: ") + equipedToolName);
+
+
+
+	FString equipedSeedName;
+
+	switch (heldSeed)
+	{
+	case 0: equipedSeedName = "Wheat";
+		break;
+	case 1: equipedSeedName = "Corn";
+		break;
+	case 2: equipedSeedName = "Strawberry";
+		break;
+	case 3: equipedSeedName = "Sunflower";
+		break;
+	default:
+		break;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT("Held Seed: ") + equipedSeedName);
+
+	for (int i = 0; i < 10; i++)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Red, TEXT(" "));
+	}
 }
 
 
@@ -141,9 +232,12 @@ void AStokedew_Valley2Character::SetupPlayerInputComponent(class UInputComponent
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AStokedew_Valley2Character::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AStokedew_Valley2Character::Raycast);
+	PlayerInputComponent->BindAction("ChangeHeldProduce", IE_Pressed, this, &AStokedew_Valley2Character::ChangeHeldProduce);
+	PlayerInputComponent->BindAction("ChangeEquipedTool", IE_Pressed, this, &AStokedew_Valley2Character::ChangeEquipedTool);
+	PlayerInputComponent->BindAction("ChangeHeldSeed", IE_Pressed, this, &AStokedew_Valley2Character::ChangeHeldSeed);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -331,19 +425,67 @@ void AStokedew_Valley2Character::ChangePlayerStamina(int amount)
 }
 
 
-int AStokedew_Valley2Character::GetSeedCount()
+int AStokedew_Valley2Character::GetSeedCount(int seedType)
 {
-	return seeds;
+	if (seedType == 0)
+	{
+		return wheatSeedCount;
+	}
+	else if (seedType == 1)
+	{
+		return cornSeedCount;
+	}
+	else if (seedType == 2)
+	{
+		return strawberrySeedCount;
+	}
+	else if (seedType == 3)
+	{
+		return sunflowerSeedCount;
+	}
+	return 17;
 }
 
-void AStokedew_Valley2Character::ChangeSeedCount(int value)
+void AStokedew_Valley2Character::ChangeSeedCount(int value, int cropType)
 {
-	seeds += value;
+	if (cropType == 0)
+	{
+		wheatSeedCount += value;
+	}
+	else if (cropType == 1)
+	{
+		cornSeedCount += value;
+	}
+	else if (cropType == 2)
+	{
+		strawberrySeedCount += value;
+	}
+	else if (cropType == 3)
+	{
+		sunflowerSeedCount += value;
+	}
+
+
 }
 
-void AStokedew_Valley2Character::ChangeCropCount(int value)
+void AStokedew_Valley2Character::ChangeCropCount(int value, int cropType)
 {
-	crops += value;
+	if (cropType == 0)
+	{
+		wheatCount += value;
+	}
+	else if (cropType == 1)
+	{
+		cornCount += value;
+	}
+	else if (cropType == 2)
+	{
+		strawberryCount += value;
+	}
+	else if (cropType == 3)
+	{
+		sunflowerCount += value;
+	}
 }
 
 void AStokedew_Valley2Character::SetPlayerLocation(float x, float y, float z)
@@ -377,7 +519,7 @@ void AStokedew_Valley2Character::Raycast()
 	FHitResult* hitResult = new FHitResult();
 	FVector startTrace = FirstPersonCameraComponent->GetComponentLocation();
 	FVector forwardVector = FirstPersonCameraComponent->GetForwardVector();
-	FVector endTrace = (forwardVector * 300.0f) + startTrace;
+	FVector endTrace = (forwardVector * 500.0f) + startTrace;
 	FCollisionQueryParams* CQP = new FCollisionQueryParams();
 
 
@@ -392,9 +534,129 @@ void AStokedew_Valley2Character::Raycast()
 				IIInteractable* interactable = Cast<IIInteractable>(hitResult->GetActor());
 				interactable->Interact();
 			}
+			else if (Cast<ALandscape>(hitResult->GetActor()) != nullptr && equipedTool == 0)
+			{
+				ALandscape* landscape = Cast<ALandscape>(hitResult->GetActor());
+				hitResult->ImpactPoint;
+
+				UWorld* const World = GetWorld();
+
+				FVector editedImpactPoint = hitResult->ImpactPoint;
+
+				editedImpactPoint.X = editedImpactPoint.X - 55;
+				editedImpactPoint.Y = editedImpactPoint.Y - 55;
+
+				editedImpactPoint.X = editedImpactPoint.X - ((int)editedImpactPoint.X % 110);
+				editedImpactPoint.Y = editedImpactPoint.Y - ((int)editedImpactPoint.Y % 110);
+				editedImpactPoint.Z = 170.0f;
+
+				if (editedImpactPoint.X > 0)
+				{
+					editedImpactPoint.X += 110.0f;
+				}
+				if (editedImpactPoint.Y > 0)
+				{
+					editedImpactPoint.Y += 110.0f;
+				}
+
+				const FRotator SpawnRotation = FRotator(0.0f, 0.0f, 0.0f);
+				const FVector SpawnLocation = editedImpactPoint;
+				ADirtPlot* newPlot = World->SpawnActor<ADirtPlot>(PlotClass, SpawnLocation, SpawnRotation);
+			}
+
 		}
 	}
 
 	delete hitResult;
 	delete CQP;
+}
+
+
+
+
+void AStokedew_Valley2Character::SetNight(bool nightPassed)
+{
+	night = nightPassed;
+}
+
+int AStokedew_Valley2Character::GetEquipedTool()
+{
+	return equipedTool;
+}
+
+void AStokedew_Valley2Character::ChangeEquipedTool()
+{
+	equipedTool++;
+
+	if (equipedTool == 4)
+	{
+		equipedTool = 0;
+	}
+}
+
+
+int AStokedew_Valley2Character::GetHeldSeed()
+{
+	return heldSeed;
+}
+
+void AStokedew_Valley2Character::ChangeHeldSeed()
+{
+	heldSeed++;
+
+	if (heldSeed == 4)
+	{
+		heldSeed = 0;
+	}
+}
+
+
+void AStokedew_Valley2Character::ChangeHeldProduce()
+{
+	heldProduceValue++;
+	if (heldProduceValue == 4)
+	{
+		heldProduceValue = 0;
+	}
+}
+
+int AStokedew_Valley2Character::GetHeldProduce()
+{
+	return heldProduceValue;
+}
+
+int AStokedew_Valley2Character::GetWheatCount()
+{
+	return wheatCount;
+}
+void AStokedew_Valley2Character::ChangeWheatCount(int change)
+{
+	wheatCount += change;
+}
+
+void AStokedew_Valley2Character::ChangeCornCount(int change)
+{
+	cornCount += change;
+}
+int AStokedew_Valley2Character::GetCornCount()
+{
+	return cornCount;
+}
+
+int AStokedew_Valley2Character::GetStrawberryCount()
+{
+	return strawberryCount;
+}
+void AStokedew_Valley2Character::ChangeStrawberryCount(int change)
+{
+	strawberryCount += change;
+}
+
+int AStokedew_Valley2Character::GetSunflowerCount()
+{
+	return sunflowerCount;
+}
+void AStokedew_Valley2Character::ChangeSunflowerCount(int change)
+{
+	sunflowerCount += change;
 }

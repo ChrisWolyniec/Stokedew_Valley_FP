@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IInteractable.h"
 #include "BoundaryFence.generated.h"
 
 class AStokedew_Valley2Character;
 
 UCLASS()
-class STOKEDEW_VALLEY2_API ABoundaryFence : public AActor
+class STOKEDEW_VALLEY2_API ABoundaryFence : public AActor, public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -27,7 +28,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void PurchaseLand();
-
+	virtual void Interact();
 	
 	
 };
