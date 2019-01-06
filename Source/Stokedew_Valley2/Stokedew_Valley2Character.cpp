@@ -30,7 +30,7 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 AStokedew_Valley2Character::AStokedew_Valley2Character()
 {
 	//Player stats
-	playerStamina = 100.0f;
+	//playerStamina = 100;
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -418,13 +418,6 @@ bool AStokedew_Valley2Character::EnableTouchscreenMovement(class UInputComponent
 	return false;
 }
 
-void AStokedew_Valley2Character::ChangePlayerStamina(int amount)
-{
-	// if action occured then decrease stamina by soso amount
-	playerStamina += amount;
-}
-
-
 int AStokedew_Valley2Character::GetSeedCount(int seedType)
 {
 	if (seedType == 0)
@@ -659,4 +652,11 @@ int AStokedew_Valley2Character::GetSunflowerCount()
 void AStokedew_Valley2Character::ChangeSunflowerCount(int change)
 {
 	sunflowerCount += change;
+}
+
+
+
+void AStokedew_Valley2Character::ChangePlayerStam(int amount)
+{
+	playerStamina += amount;
 }

@@ -49,13 +49,6 @@ class AStokedew_Valley2Character : public ACharacter
 public:
 	AStokedew_Valley2Character();
 
-
-	//Player stats
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character stats")
-	float playerStamina;
-
-	void ChangePlayerStamina(int amount);
-
 protected:
 	virtual void BeginPlay();
 
@@ -285,6 +278,13 @@ public:
 	int equipedTool = 0;
 	int heldSeed = 0;
 
+
+
+	//Player stats
+	UPROPERTY(EditAnywhere, Category = "Character stats")
+	int playerStamina = 100;
+
+	void ChangePlayerStam(int amount);
 };
 
 
