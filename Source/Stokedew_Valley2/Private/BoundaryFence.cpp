@@ -35,3 +35,8 @@ void ABoundaryFence::PurchaseLand()
 		Destroy();
 	}
 }
+
+void ABoundaryFence::Interact()
+{
+	PurchaseLand();
+}

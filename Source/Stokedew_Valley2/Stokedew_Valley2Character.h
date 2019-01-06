@@ -7,6 +7,7 @@
 #include "Stokedew_Valley2Character.generated.h"
 
 class UInputComponent;
+class ADirtPlot;
 
 UCLASS(config=Game)
 class AStokedew_Valley2Character : public ACharacter
@@ -48,13 +49,6 @@ class AStokedew_Valley2Character : public ACharacter
 public:
 	AStokedew_Valley2Character();
 
-
-	//Player stats
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character stats")
-	float playerStamina;
-
-	void ChangePlayerStamina(int amount);
-
 protected:
 	virtual void BeginPlay();
 
@@ -75,6 +69,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AStokedew_Valley2Projectile> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, Category = "DirtPlot")
+	TSubclassOf<class ADirtPlot> PlotClass;
+
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	class USoundBase* FireSound;
@@ -86,6 +83,8 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
+
+	float deltaTime = 0;
 
 protected:
 	
@@ -163,15 +162,24 @@ private:
 	void Tick(float DeltaTime);
 
 	void Raycast();
-	//FHitResult* hitResult;
-	//FCollisionQueryParams CQP;
-	//FCollisionResponseParams CRP;
 
 public:
-	void ChangeSeedCount(int value);
-	int GetSeedCount();
 
-	void ChangeCropCount(int value);
+	enum EquipedTool
+	{
+		Hoe = 0,
+		WateringCan,
+		Throwel,
+		Sickle
+	};
+
+
+
+
+	void ChangeSeedCount(int value, int cropType);
+	int GetSeedCount(int seedType);
+
+	void ChangeCropCount(int value, int cropType);
 	void SetPlayerLocation(float x, float y, float z);
 
 
@@ -180,6 +188,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Sleep")
 		bool GetSleep();
+
+	UPROPERTY(EditAnywhere, Category = "Sleep")
+	bool sleeping = false;
+
+
 
 	UFUNCTION(BlueprintCallable, Category = "Money")
 	int GetGold();
@@ -190,7 +203,105 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Money")
 	int gold;
 
-	UPROPERTY(EditAnywhere, Category = "Sleep")
-	bool sleeping = false;
+
+
+
+
+	UPROPERTY(EditAnywhere, Category = "Time")
+	bool night = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Time")
+	void SetNight(bool nightPassed);
+
+
+
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetEquipedTool();
+	void ChangeEquipedTool();
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetHeldProduce();
+	void ChangeHeldProduce();
+
+	UFUNCTION(BlueprintCallable, Category = "Equiped")
+	int GetHeldSeed();
+	void ChangeHeldSeed();
+
+
+
+
+
+	int GetWheatCount();
+	void ChangeWheatCount(int change);
+
+	int GetCornCount();
+	void ChangeCornCount(int change);
+
+	int GetStrawberryCount();
+	void ChangeStrawberryCount(int change);
+
+	int GetSunflowerCount();
+	void ChangeSunflowerCount(int change);
+
+
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int wheatSeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int cornSeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int strawberrySeedCount;
+
+	UPROPERTY(EditAnywhere, Category = "Seeds")
+	int sunflowerSeedCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tools")
+	FString equipedToolName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crops")
+	FString heldProduceName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Seeds")
+	int seedAmount;
+
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crops")
+	int cropAmount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int wheatCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int cornCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int strawberryCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int sunflowerCount;
+
+	UPROPERTY(EditAnywhere, Category = "Crops")
+	int heldProduceValue;
+
+	int equipedTool = 0;
+	int heldSeed = 0;
+
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Seeds")
+	FString equipedSeedName;
+
+	//Player stats
+	UPROPERTY(EditAnywhere, Category = "Character stats")
+	int playerStamina = 100;
+
+	void ChangePlayerStam(int amount);
 };
+
 

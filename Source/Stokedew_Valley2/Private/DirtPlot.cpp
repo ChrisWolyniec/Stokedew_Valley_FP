@@ -32,13 +32,15 @@ void ADirtPlot::Tick(float DeltaTime)
 void ADirtPlot::SpawnCrop()
 {
 	//const FRotator SpawnRotation = GetActorRotation();
-	if (!planted)
+	if (!planted && character->GetEquipedTool() == 1)
 	{
-		if (character->GetSeedCount() > 0)
+		int seedType = character->GetHeldSeed();
+		if (character->GetSeedCount(seedType) > 0)
 		{
 			int stamLoss = -5;
+			character->ChangePlayerStam(stamLoss);
 			planted = true;
-			character->ChangeSeedCount(-1);
+			character->ChangeSeedCount(-1, seedType);
 			UWorld* const World = GetWorld();
 
 			//srand(time(NULL)); TODO srand
@@ -46,12 +48,20 @@ void ADirtPlot::SpawnCrop()
 			const FVector SpawnLocation = GetActorLocation();
 			crop = World->SpawnActor<ACrop>(CropClass, SpawnLocation, SpawnRotation);
 			crop->myPlot = this;
+			crop->SetCropType(seedType);
 		}
 	}
 	else
 	{
-		crop->Harvest();
+		if (crop != NULL)
+		{
+			crop->Interact();
+		}
 	}
 }
 
+void ADirtPlot::Interact()
+{
+	SpawnCrop();
+}
 

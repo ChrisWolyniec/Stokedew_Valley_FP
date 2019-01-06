@@ -13,15 +13,29 @@ ACrop::ACrop()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CropStage"));
 	MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	
+	
+	wheatMat = CreateDefaultSubobject<UMaterial>(TEXT("Wheat Material"));
+	cornMat = CreateDefaultSubobject<UMaterial>(TEXT("Corn Material"));
+	strawberryMat = CreateDefaultSubobject<UMaterial>(TEXT("Strawberry Material"));
+	sunflowerMat = CreateDefaultSubobject<UMaterial>(TEXT("Sunflower Material"));
+	
+	
+	name = "crop boi";
+	IsStackable = true;
+	itemDescription = "this is a crop";
+	IsConsumable = false;
+	maxStackable = 99;
 }
 
 // Called when the game starts or when spawned
 void ACrop::BeginPlay()
 {
 	Super::BeginPlay();
-	MeshComponent->SetStaticMesh(StageOne);
 	character = Cast<AStokedew_Valley2Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	
+	MeshComponent->SetStaticMesh(StageOne);
+	MeshComponent->SetMaterial(0, wheatMat);
 }
 
 // Called every frame
@@ -36,7 +50,7 @@ void ACrop::Tick(float DeltaTime)
 
 void ACrop::UpdateGrowth(float DeltaTime)
 {
-	if (!night)
+	if (!night && watered)
 	{
 		timeSincePlanted += DeltaTime;
 		if (timeSincePlanted > 6)
@@ -54,13 +68,14 @@ void ACrop::UpdateGrowth(float DeltaTime)
 
 void ACrop::Harvest()
 {
-	if (stage == 3)
+	if (stage == 3 && !harvested)
 	{
 		myPlot->planted = false;
 		int seedsGained = (rand() % 3);
 		int cropsGained = (rand() % 3) + 2;
-		character->ChangeSeedCount(seedsGained);
-		character->ChangeCropCount(cropsGained);
+		character->ChangeSeedCount(seedsGained, cropType);
+		character->ChangeCropCount(cropsGained, cropType);
+		harvested = true;
 		Destroy();
 	}
 }
@@ -73,4 +88,37 @@ void ACrop::SetNight(bool nightPassed)
 bool ACrop::GetNight()
 {
 	return night;
+}
+
+void ACrop::Interact()
+{
+	if (character->GetEquipedTool() == 2 && !watered)
+	{
+		watered = true;
+	}
+	else if (character->GetEquipedTool() == 3)
+	{
+		Harvest();
+	}
+}
+
+void ACrop::SetCropType(int cropTypePassed)
+{
+	cropType = cropTypePassed;
+	if (cropType == 0)
+	{
+		MeshComponent->SetMaterial(0, wheatMat);
+	}
+	else if (cropType == 1)
+	{
+		MeshComponent->SetMaterial(0, cornMat);
+	}
+	else if (cropType == 2)
+	{
+		MeshComponent->SetMaterial(0, strawberryMat);
+	}
+	else if (cropType == 3)
+	{
+		MeshComponent->SetMaterial(0, sunflowerMat);
+	}
 }
