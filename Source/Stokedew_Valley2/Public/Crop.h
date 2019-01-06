@@ -1,13 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include <iostream>
+#include <string>
+#include "Engine/Texture2D.h"
+#include "UnrealString.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Crop.generated.h"
 
 class ADirtPlot;
 class AStokedew_Valley2Character;
+
+using namespace std;
 
 UCLASS()
 class STOKEDEW_VALLEY2_API ACrop : public AActor
@@ -54,6 +59,26 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crop Stages")
 	UStaticMesh* StageThree;
+
+
+	//Inventory 
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		FString name;
+
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		bool IsStackable;
+
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		UTexture2D* thumbnail;
+
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		FString itemDescription;
+
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		bool IsConsumable;
+
+	UPROPERTY(EditAnywhere, Category = "Item Struct")
+		int maxStackable;
 
 	ADirtPlot* myPlot;
 	AStokedew_Valley2Character* character;

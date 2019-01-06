@@ -13,6 +13,12 @@ ACrop::ACrop()
 	PrimaryActorTick.bCanEverTick = true;
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CropStage"));
 	MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	name = "crop boi";
+	IsStackable = true;
+	itemDescription = "this is a crop";
+	IsConsumable = false;
+	maxStackable = 99;
 }
 
 // Called when the game starts or when spawned
